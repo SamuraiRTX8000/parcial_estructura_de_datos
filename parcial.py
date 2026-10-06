@@ -17,11 +17,43 @@ grafo.add_edges_from ([("A","B",{ "weight": 4 }),
                     ("E","C", {"weight": 5}),
                     ("E","D", {"weight": 3})])
 
-for nodo in grafo:
-    print(f"{nodo} -> ", end="")
+# Posición de los nodos
+# Posiciones EXACTAS de los nodos
+pos = {
+    "A": (0, 1),
+    "B": (1, 2),
+    "C": (2, 1.5),
+    "D": (0.7, 0),
+    "E": (2, 0)
+}
 
-    for vecino in grafo[nodo]:
-        peso = grafo[nodo][vecino]["weight"]
-        print(f"{vecino}({peso}) ", end="")
+# Dibujar grafo
+nx.draw(
+    grafo,
+    pos,
+    with_labels=True,
+    node_color="dodgerblue",
+    node_size=1000,
+    font_color="white",
+    font_weight="bold",
+    edge_color="gray",
+    width=1.5
+)
 
-    print()
+# Obtener pesos
+pesos = nx.get_edge_attributes(grafo, "weight")
+
+# Mostrar pesos
+nx.draw_networkx_edge_labels(
+    grafo,
+    pos,
+    edge_labels=pesos,
+    font_size=12,
+    font_weight="bold"
+)
+
+# Título
+plt.title("GRAFO PONDERADO\nCON 5 NODOS", fontweight="bold")
+
+plt.axis("off")
+plt.show()
