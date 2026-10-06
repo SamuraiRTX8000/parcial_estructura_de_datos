@@ -1,24 +1,21 @@
+
 import networkx as nx
 import matplotlib.pyplot as plt
 
+# Crear el grafo
 grafo = nx.Graph()
-grafo.add_edges_from ([("A","B",{ "weight": 4 }),
-                     ("A","D",{"weight": 6}),
-                    ("B", "A", {"weight": 4}),
-                    ("B","C", {"weight": 7}),
-                    ("B","D", {"weight": 7}),
-                    ("C","B", {"weight": 7}),
-                    ("C","D", {"weight": 2}),
-                    ("C","E", {"weight": 5}),
-                    ("D","A", {"weight": 6}),
-                    ("D","B", {"weight": 7}),
-                    ("D","C", {"weight": 2}),
-                    ("D","E", {"weight": 3}),
-                    ("E","C", {"weight": 5}),
-                    ("E","D", {"weight": 3})])
 
-# Posición de los nodos
-# Posiciones EXACTAS de los nodos
+grafo.add_edges_from([
+    ("A", "B", {"weight": 4}),
+    ("A", "D", {"weight": 6}),
+    ("B", "C", {"weight": 7}),
+    ("B", "D", {"weight": 7}),
+    ("C", "D", {"weight": 2}),
+    ("C", "E", {"weight": 5}),
+    ("D", "E", {"weight": 3})
+])
+
+# Posiciones de los nodos
 pos = {
     "A": (0, 1),
     "B": (1, 2),
@@ -27,33 +24,99 @@ pos = {
     "E": (2, 0)
 }
 
-# Dibujar grafo
-nx.draw(
+# Crear la figura
+plt.figure(figsize=(9, 7))
+
+# -------------------------
+# DIBUJAR NODOS
+# -------------------------
+
+nx.draw_networkx_nodes(
     grafo,
     pos,
-    with_labels=True,
     node_color="dodgerblue",
-    node_size=1000,
-    font_color="white",
-    font_weight="bold",
-    edge_color="gray",
-    width=1.5
+    node_size=1200,
+    edgecolors="black",
+    linewidths=2
 )
 
-# Obtener pesos
+# -------------------------
+# DIBUJAR ETIQUETAS
+# -------------------------
+
+nx.draw_networkx_labels(
+    grafo,
+    pos,
+    font_color="white",
+    font_size=14,
+    font_weight="bold"
+)
+
+# -------------------------
+# DIBUJAR ARISTAS
+# -------------------------
+
+nx.draw_networkx_edges(
+    grafo,
+    pos,
+    edge_color="gray",
+    width=2.5
+)
+
+# -------------------------
+# MOSTRAR PESOS
+# -------------------------
+
 pesos = nx.get_edge_attributes(grafo, "weight")
 
-# Mostrar pesos
 nx.draw_networkx_edge_labels(
     grafo,
     pos,
     edge_labels=pesos,
-    font_size=12,
-    font_weight="bold"
+    font_size=13,
+    font_weight="bold",
+    label_pos=0.5,
+    bbox=dict(
+        facecolor="white",
+        edgecolor="none",
+        alpha=0.8
+    )
 )
 
-# Título
-plt.title("GRAFO PONDERADO\nCON 5 NODOS", fontweight="bold")
+# -------------------------
+# TÍTULO
+# -------------------------
 
+plt.title(
+    "GRAFO PONDERADO",
+    fontsize=18,
+    fontweight="bold"
+)
+
+# -------------------------
+# LEYENDA
+# -------------------------
+
+plt.text(
+    -0.2,
+    -0.45,
+    "Vértices: A, B, C, D, E\n"
+    "Aristas: conexiones entre vértices\n"
+    "Número: peso de la arista",
+    fontsize=11,
+    bbox=dict(
+        facecolor="white",
+        edgecolor="gray",
+        boxstyle="round,pad=0.5"
+    )
+)
+
+# Quitar ejes
 plt.axis("off")
+
+# Ajustar espacio
+plt.tight_layout()
+
+# Mostrar
 plt.show()
+
